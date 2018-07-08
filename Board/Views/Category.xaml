@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:behaviors="clr-namespace:Board.Behaviors;assembly=Board"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Board.Views.Category"
+             Title="いちらん">
+
+    <!--iOS場合は上部に余白を設ける-->
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="0, 20, 0, 0"/>
+    </ContentPage.Padding>
+
+    <!--レイアウト-->
+    <StackLayout HorizontalOptions="Center" >
+        <!-- 検索(はりぼて) -->
+        <SearchBar Placeholder="検索" />
+        <!--カテゴリを並べる-->
+        <ListView ItemsSource="{Binding LargeCategories}">
+            <!--ListVIewタップ時にコマンドが発火させられるBehaviorを使う-->
+            <ListView.Behaviors>
+                <behaviors:ItemSelectedToCommandBaseBehavior Command="{Binding LargeCategorySelectedCommand}"/>
+            </ListView.Behaviors>
+            
+            <!--ListVIewのItemsSourceにはList<LargeCategory>型がバインドされているので
+                LargeCategoryクラスの中にある「CategoryNameプロパティ」をバインドする-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding CategoryName}"
+                               VerticalOptions="Center"
+                               />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

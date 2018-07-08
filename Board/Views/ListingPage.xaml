@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms" 
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms" 
+             prism:ViewModelLocator.AutowireViewModel="True" 
+             x:Class="Board.Views.ListingPage" 
+             Title="{Binding Title}">-->
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:behaviors="clr-namespace:Board.Behaviors;assembly=Board" 
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms" 
+             prism:ViewModelLocator.AutowireViewModel="True" 
+             x:Class="Board.Views.ListingPage" 
+             Title="ListingPage">
+
+    <!--iOS場合は上部に余白を設ける-->
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0"/>
+    </ContentPage.Padding>
+
+    <StackLayout>
+        <Entry Text="{Binding SelectedItem}"
+               Placeholder="選択してください！"/>
+        <!-- <Entry x:Name="entry" Placeholder="選択して下さい！"/> -->
+
+        <!--List<Drink>型のプロパティをListViewへバインド-->
+        <ListView ItemsSource="{Binding Items}">
+
+        <!-- ListView.Behaviorを拡張 -->
+            <ListView.Behaviors>
+                <behaviors:ItemSelectedToCommandBehavior 
+                    Command="{Binding ItemSelectedCommand}"/>
+            </ListView.Behaviors>
+
+            <!--クラスそのものをバインドしているので、クラス内のどの情報をバインドさせるのかを明示的にしてやる必要がある-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding DrinkName}"
+                               VerticalOptions="Center"/>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>
